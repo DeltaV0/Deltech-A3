@@ -20,7 +20,7 @@ public class CamMover : MonoBehaviour
 
         Vector2 moveDir = new Vector2 (Mathf.RoundToInt(moveX), Mathf.RoundToInt(moveY)).normalized;
 
-        campos += (Vector3)moveDir;
+        campos += (Vector3)moveDir * 0.5f;
         transform.position = Vector3.Lerp(transform.position, new Vector3(Mathf.RoundToInt(campos.x) + 0.5f, Mathf.RoundToInt(campos.y), Mathf.RoundToInt(campos.z)), 0.25f);
     }
 }

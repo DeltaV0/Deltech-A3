@@ -26,7 +26,7 @@ public class Generator : MonoBehaviour
 
     Dictionary<Vector2Int, Chunk> chunks = new Dictionary<Vector2Int, Chunk>();
     public static Generator me;
-    public GameObject objPf;
+    public GameObject[] objPf;
 
     public Vector2Int cPos;
 
@@ -92,7 +92,8 @@ public class Generator : MonoBehaviour
     public float GetNoiseAtPos(Vector2 p)
     {
         float n = 0;
-        n = Mathf.Pow(PN(p.x, p.y) + PN(p.x * 2, p.y * 2) * 0.5f + PN(p.x * 4, p.y * 4) * 0.25f - 0.1f, 5)  - Mathf.Pow(PN(p.x, p.y) * 1.25f, 6) * 0.5f;
+        n = Mathf.Pow(PN(p.x, p.y) + PN(p.x * 2, p.y * 2) * 0.5f + PN(p.x * 4, p.y * 4) * 0.25f - 0.1f, 5)  - Mathf.Pow(PN(p.x, p.y) * 1.25f, 6) * 0.3f;
+        n *= 0.5f;
        return n; 
     }
 

@@ -5,6 +5,7 @@ public class Blocks : MonoBehaviour
     
     [System.Serializable]
     public class Terrain
+    
     {
         public float noise;
         public float[] noiseR;
@@ -25,7 +26,7 @@ public class Blocks : MonoBehaviour
             noiseR[0] = Generator.me.GetResourceNoiseAtPos((Vector2)APos * 1.25f) - 0.1f;
             noiseR[1] = Generator.me.GetResourceNoiseAtPos((Vector2)APos * 2f);
 
-            GameObject tile = Instantiate(Generator.me.objPf, APos, Quaternion.identity);
+            GameObject tile = Instantiate(Generator.me.objPf[0], APos, Quaternion.identity);
             gobj = tile;
             spr = tile.GetComponent<SpriteRenderer>();
 
@@ -57,5 +58,11 @@ public class Blocks : MonoBehaviour
 
             }
         }
+    }
+    
+    [System.Serializable]
+    public class Block
+    {
+
     }
 }
