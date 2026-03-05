@@ -9,6 +9,7 @@ public class Generator : MonoBehaviour
     {
         public Vector2Int pos;
         Dictionary<Vector2Int, Blocks.Terrain> terrain = new Dictionary<Vector2Int, Blocks.Terrain>();
+        Dictionary<Vector2Int, Blocks.Block> buildings = new Dictionary<Vector2Int, Blocks.Block>();
         public Chunk(Vector2Int position)
         {
             terrain.Clear();
@@ -66,7 +67,7 @@ public class Generator : MonoBehaviour
     void Start()
     {
         me = this;
-        NoiseOffset = Vector2Int.FloorToInt(Random.insideUnitCircle * (int.MaxValue / 2048));
+        NoiseOffset = Vector2Int.FloorToInt(Random.insideUnitCircle * (int.MaxValue / 1024));
         Debug.Log(NoiseOffset);
         
     }
