@@ -51,7 +51,8 @@ public class Generator : MonoBehaviour
                 if(block.Type == 0)
                     {
                         block.ChangeItemCount(false, terrain[block.relPos].Resource, 1);
-                        block.txt.text = terrain[block.relPos].Resource + ", " + block.ItemsOut[terrain[block.relPos].Resource];
+                        block.txt.text = terrain[block.relPos].Resource + ", " + block.ItemsOut[terrain[block.relPos].Resource] + "\n" + block.ItemsIn.ElementAt(0).Key + ", " + block.ItemsIn.ElementAt(0).Value;
+                        block.TrySendResources();
                     }
             }
             }

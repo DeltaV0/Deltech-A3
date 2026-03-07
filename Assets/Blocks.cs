@@ -4,6 +4,14 @@ using TMPro;
 
 public class Blocks : MonoBehaviour
 {
+    public GameObject Transmission;
+
+    public static Blocks me;
+
+    void Start()
+    {
+        me = this;
+    }
     
     [System.Serializable]
     public class Terrain
@@ -78,8 +86,8 @@ public class Blocks : MonoBehaviour
         public Dictionary<int, int> ItemsOut = new Dictionary<int, int>();
         [SerializeReference]
         public List<Blocks.Block> ConnectionsOut = new List<Block>();
-        [SerializeReference]
-        public List<Blocks.Block> ConnectionsIn = new List<Block>();
+        //[SerializeReference]
+        //public List<Blocks.Block> ConnectionsIn = new List<Block>();
 
         public int circuit;
 
@@ -138,6 +146,12 @@ public class Blocks : MonoBehaviour
                     return c >= 0;
                 }
             }
+        }
+
+        public void TrySendResources()
+        {
+            GameObject q = Instantiate(Blocks.me.Transmission, Vector3.zero, Quaternion.identity);
+            q.GetComponent<ItemTransmission>().Go(this, ConnectionsOut[0], 0, 1);
         }
 
         public void ChangeItemCount(bool IO, int i, int c)

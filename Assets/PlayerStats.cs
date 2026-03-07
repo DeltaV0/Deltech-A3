@@ -34,7 +34,8 @@ public class PlayerStats : MonoBehaviour
                 bStart = b;
             } else
             {
-                //bStart.ConnectionsOut.Add();
+                bStart.ConnectionsOut.Add(b);
+               // b.ConnectionsIn.Add(bStart);
                 bStart = null;
             }
         }
