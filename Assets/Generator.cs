@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Generator : MonoBehaviour
 {
@@ -22,6 +23,38 @@ public class Generator : MonoBehaviour
                 }
             }
             pos = position;
+        }
+
+        public Blocks.Block GetBlockAt(Vector2Int position)
+        {
+            if(buildings.ContainsKey(position)){
+                return buildings[position];
+            } else
+            {
+                return null;
+            }
+        }
+
+        public void Build(Vector2Int position)
+        {
+            if(!buildings.ContainsKey(position)){
+                buildings.Add(position, new Blocks.Block(position - pos, pos));
+            }
+        }
+
+        public void RunBuildingLogic()
+        {   
+            if(buildings.Count > 0){
+            for(int i = 0; i < buildings.Count; i++)
+            {
+                Blocks.Block block = buildings.ElementAt(i).Value;
+                if(block.Type == 0)
+                    {
+                        block.ChangeItemCount(false, terrain[block.relPos].Resource, 1);
+                        block.txt.text = terrain[block.relPos].Resource + ", " + block.ItemsOut[terrain[block.relPos].Resource];
+                    }
+            }
+            }
         }
     }
 
@@ -46,6 +79,11 @@ public class Generator : MonoBehaviour
             Chunk newChunk = new Chunk(RealPos);
             chunks.Add(RealPos, newChunk);
         }
+    }
+
+    public Blocks.Block GetBlockAt(Vector2Int Position)
+    {
+        return GetChunkAt(Position).GetBlockAt(Position);
     }
 
     public Chunk GetChunkAt(Vector2Int Position)
@@ -88,12 +126,18 @@ public class Generator : MonoBehaviour
                 }
             }
         }
+
+        for(int i = 0; i < chunks.Count; i++)
+            {
+                chunks.ElementAt(i).Value.RunBuildingLogic();
+                
+            }
     }
 
     public float GetNoiseAtPos(Vector2 p)
     {
         float n = 0;
-        n = Mathf.Pow(PN(p.x, p.y) + PN(p.x * 2, p.y * 2) * 0.5f + PN(p.x * 4, p.y * 4) * 0.25f - 0.1f, 5)  - Mathf.Pow(PN(p.x, p.y) * 1.25f, 6) * 0.3f;
+        n = Mathf.Pow(PN(p.x, p.y) + PN(p.x * 2, p.y * 2) * 0.5f + PN(p.x * 4, p.y * 4) * 0.25f - 0.1f, 5)  - Mathf.Pow(PN(p.x, p.y) * 1.25f, 6) * 0.3f + PN(p.x, p.y);
         n *= 0.5f;
        return n; 
     }

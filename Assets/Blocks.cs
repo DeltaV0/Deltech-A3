@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections.Generic;
+using TMPro;
 
 public class Blocks : MonoBehaviour
 {
@@ -47,7 +49,7 @@ public class Blocks : MonoBehaviour
                 Resource = 0;
             }
             if(Resource == 0){
-                spr.color = new Color(noise * 0.75f + 0.25f, noise * 0.5f + 0.25f, noise * 0.5f + 0.25f, 1f);
+                spr.color = new Color(noise * 0.5f, noise * 0.5f, noise * 0.5f, 1f);
             } else if(Resource == 1)
             {
                 spr.color = new Color(noiseR[0] * 0.5f + UnityEngine.Random.Range(0, 0.1f), noiseR[0] * 0.5f, noiseR[0] * 0.5f, 1f);
@@ -63,6 +65,107 @@ public class Blocks : MonoBehaviour
     [System.Serializable]
     public class Block
     {
+        public SpriteRenderer spr;
+        public GameObject gobj;
+        public Vector2Int absPos;
+        public Vector2Int relPos;
 
+        public TMP_Text txt;
+
+        public int Type;
+        //int 1 is item ID, int 2 is item Count (ex: 2, 5 would be item wiht ID 2 has a count of 5)
+        public Dictionary<int, int> ItemsIn = new Dictionary<int, int>();
+        public Dictionary<int, int> ItemsOut = new Dictionary<int, int>();
+        [SerializeReference]
+        public List<Blocks.Block> ConnectionsOut = new List<Block>();
+        [SerializeReference]
+        public List<Blocks.Block> ConnectionsIn = new List<Block>();
+
+        public int circuit;
+
+        public Block(Vector2Int pos, Vector2Int cpos)
+        {
+            Type = 0;
+            relPos = pos;
+            absPos = pos + cpos;
+            Vector3 APos = new Vector3((float)(absPos.x), (float)(absPos.y), 0);
+            circuit = 0;
+            GameObject tile = Instantiate(Generator.me.objPf[1], APos, Quaternion.identity);
+            gobj = tile;
+            spr = tile.GetComponent<SpriteRenderer>();
+            txt = gobj.transform.GetChild(0).GetComponent<TMP_Text>();
+        }
+        public bool CheckIsItemChangeValid(bool IO, int i, int c)
+        {
+            if (IO)
+            {
+                if (ItemsIn.ContainsKey(i))
+                {
+                    if(c > 0)
+                    {
+                        return true;
+                    } else if(c < 0 && ItemsIn[i] - c >= 0)
+                    {
+                        return true;
+
+                    } else
+                    {
+                        return false;
+                    }
+                } else
+                {
+
+                    return c >= 0;
+                }
+            } else
+            {
+                if (ItemsOut.ContainsKey(i))
+                {
+                    if(c > 0)
+                    {
+                        return true;
+                    } else if(c < 0 && ItemsOut[i] - c >= 0)
+                    {
+                        return true;
+                        
+                    } else
+                    {
+                        return false;
+                    }
+                } else
+                {
+
+                    return c >= 0;
+                }
+            }
+        }
+
+        public void ChangeItemCount(bool IO, int i, int c)
+        {
+            if(CheckIsItemChangeValid(IO, i, c)){
+            //IO true in IN, false is OUT
+            if (IO)
+            {
+                    if (ItemsIn.ContainsKey(i))
+                    {
+                        ItemsIn[i] += c;
+                    } else
+                    {
+                        ItemsIn.Add(i, c);
+                    }
+                
+            } else
+                {
+                    if (ItemsOut.ContainsKey(i))
+                    {
+                        ItemsOut[i] += c;
+                    } else
+                    {
+                        ItemsOut.Add(i, c);
+                    }
+                }
+            }
+            
+        }
     }
 }

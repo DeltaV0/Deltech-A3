@@ -12,10 +12,11 @@ public class Selector : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && stationary)
+        if (Input.GetMouseButtonDown(0) && stationary && !PlayerStats.me.mouseOverUI)
             {
                 Vector2Int clickedPos = new Vector2Int(Mathf.FloorToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).x + 0.5f), Mathf.FloorToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).y + 0.5f));
                 TPos = (Vector2)clickedPos;
+                PlayerStats.me.SelectBlock(Generator.me.GetBlockAt(Vector2Int.FloorToInt(TPos)), Vector2Int.FloorToInt(TPos));
             }
     }
 
