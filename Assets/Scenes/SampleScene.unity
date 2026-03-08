@@ -521,7 +521,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c88f5cead0c0b2a4eb05b5900433f8d1, type: 3}
   m_Name: 
@@ -1079,6 +1079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2ac696f2de2b564aa5b63326a7c5cfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Transmission: {fileID: 0}
 --- !u!114 &1089174044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1143,7 +1144,6 @@ MonoBehaviour:
     txt: {fileID: 0}
     Type: 0
     ConnectionsOut: []
-    ConnectionsIn: []
     circuit: 0
   action: 0
   mouseOverUI: 0
@@ -1155,17 +1155,6 @@ MonoBehaviour:
     txt: {fileID: 0}
     Type: 0
     ConnectionsOut: []
-    ConnectionsIn: []
-    circuit: 0
-  bEnd:
-    spr: {fileID: 0}
-    gobj: {fileID: 0}
-    absPos: {x: 0, y: 0}
-    relPos: {x: 0, y: 0}
-    txt: {fileID: 0}
-    Type: 0
-    ConnectionsOut: []
-    ConnectionsIn: []
     circuit: 0
   references:
     version: 2
