@@ -20,7 +20,7 @@ public class PlayerStats : MonoBehaviour
 
     public void SelectBlock(Blocks.Block b, Vector2Int p)
     {
-        if(b != null)
+        if(b != null && b.absPos != null)
         {
             selectedBlock = b;
         }
@@ -29,13 +29,17 @@ public class PlayerStats : MonoBehaviour
             Generator.me.GetChunkAt(p).Build(p);
         } else if(action == 5)
         {
-            if(bStart == null)
+            if(b != null && b.gobj != null && b.absPos != null){
+            if(bStart == null || bStart.gobj == null)
             {
                 bStart = b;
             } else
             {
-                bStart.ConnectionsOut.Add(b);
+                bStart.ConnectionsOutPos.Add(b.absPos);
                // b.ConnectionsIn.Add(bStart);
+                bStart = null;
+            }
+            } else {
                 bStart = null;
             }
         }

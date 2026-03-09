@@ -84,15 +84,18 @@ public class Blocks : MonoBehaviour
         //int 1 is item ID, int 2 is item Count (ex: 2, 5 would be item wiht ID 2 has a count of 5)
         public Dictionary<int, int> ItemsIn = new Dictionary<int, int>();
         public Dictionary<int, int> ItemsOut = new Dictionary<int, int>();
-        [SerializeReference]
-        public List<Blocks.Block> ConnectionsOut = new List<Block>();
+        public List<Vector2Int> ConnectionsOutPos = new List<Vector2Int>();
         //[SerializeReference]
         //public List<Blocks.Block> ConnectionsIn = new List<Block>();
 
         public int circuit;
 
+        public bool canSendResources;
+        public int sendingIndex;
+
         public Block(Vector2Int pos, Vector2Int cpos)
         {
+            canSendResources = true;
             Type = 0;
             relPos = pos;
             absPos = pos + cpos;
@@ -148,10 +151,20 @@ public class Blocks : MonoBehaviour
             }
         }
 
+        public void ChangeSendingIndex(){
+            sendingIndex++;
+            if(sendingIndex >= ConnectionsOutPos.Count){
+                sendingIndex = 0;
+            }
+        }
+
         public void TrySendResources()
         {
+            if(ConnectionsOutPos.Count > 0 && canSendResources){
             GameObject q = Instantiate(Blocks.me.Transmission, Vector3.zero, Quaternion.identity);
-            q.GetComponent<ItemTransmission>().Go(this, ConnectionsOut[0], 0, 1);
+            q.GetComponent<ItemTransmission>().Go(this, Generator.me.GetBlockAt(ConnectionsOutPos[sendingIndex]), 0, 1);
+            ChangeSendingIndex();
+            }
         }
 
         public void ChangeItemCount(bool IO, int i, int c)

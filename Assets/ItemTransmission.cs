@@ -21,11 +21,14 @@ public class ItemTransmission : MonoBehaviour
     private IEnumerator GoToTarget(float Distance, Vector2 Start, Vector2 T)
     {
         exiting.ChangeItemCount(false, ID, -1 * Count);
-        for(int i = 0; i < (int)Distance * 100; i++)
+        exiting.canSendResources = false;
+        for(int i = 0; i < (int)Distance * 10; i++)
         {
-            transform.position = (Vector3)Vector2.Lerp(Start, T, (float)i / (Distance * 100));
-            yield return new WaitForSeconds(0.025f);
+            float t = (float)i / (Distance * 10);
+            transform.position = (Vector3)Vector2.Lerp(Start, T, Mathf.Pow(t-1, 5) + 1);
+            yield return new WaitForSeconds(0.01f);
         }
+        exiting.canSendResources = true;
         Target.ChangeItemCount(true, ID, Count);
         Destroy(gameObject);
     }
