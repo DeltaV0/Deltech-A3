@@ -35,10 +35,10 @@ public class Generator : MonoBehaviour
             }
         }
 
-        public void Build(Vector2Int position)
+        public void Build(Vector2Int position, int i)
         {
             if(!buildings.ContainsKey(position)){
-                buildings.Add(position, new Blocks.Block(position - pos, pos));
+                buildings.Add(position, new Blocks.Block(position - pos, pos, i));
             }
         }
 
@@ -50,10 +50,28 @@ public class Generator : MonoBehaviour
                 Blocks.Block block = buildings.ElementAt(i).Value;
                 if(block.Type == 0)
                     {
-                        block.ChangeItemCount(false, terrain[block.relPos].Resource, 1);
-                        block.txt.text = terrain[block.relPos].Resource + ", " + block.ItemsOut[terrain[block.relPos].Resource] ;
+                        if(!block.busy){
+                            block.MiningBlockLogic(terrain[block.relPos]);
+                        }
+                        
+                        block.txt.text = "";
+                        if (block.ItemsOut.Count > 0)
+                        {
+                           block.txt.text += terrain[block.relPos].Resource + ", " + block.ItemsOut[terrain[block.relPos].Resource] ;
+                        }
+                        
                         if(block.ItemsIn.Count > 0){
                             block.txt.text += "\n" + block.ItemsIn.ElementAt(0).Key + ", " + block.ItemsIn.ElementAt(0).Value;
+                            block.ChangeItemCount(false, block.ItemsIn.ElementAt(0).Key, block.ItemsIn.ElementAt(0).Value);
+                            block.ItemsIn.Remove(block.ItemsIn.ElementAt(0).Key);
+                        }
+                        block.TrySendResources();
+                    } else if(block.Type == 1)
+                    {
+                        if(block.ItemsIn.Count > 0){
+                            //block.txt.text += "\n" + block.ItemsIn.ElementAt(0).Key + ", " + block.ItemsIn.ElementAt(0).Value;
+                            block.ChangeItemCount(false, block.ItemsIn.ElementAt(0).Key, block.ItemsIn.ElementAt(0).Value);
+                            block.ItemsIn.Remove(block.ItemsIn.ElementAt(0).Key);
                         }
                         block.TrySendResources();
                     }

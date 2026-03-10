@@ -20,6 +20,7 @@ public class ItemTransmission : MonoBehaviour
 
     private IEnumerator GoToTarget(float Distance, Vector2 Start, Vector2 T)
     {
+        if(exiting.CheckIsItemChangeValid(false, ID, -1 * Count)){
         exiting.ChangeItemCount(false, ID, -1 * Count);
         exiting.canSendResources = false;
         for(int i = 0; i < (int)Distance * 10; i++)
@@ -31,5 +32,9 @@ public class ItemTransmission : MonoBehaviour
         exiting.canSendResources = true;
         Target.ChangeItemCount(true, ID, Count);
         Destroy(gameObject);
+        } else
+        {
+           Destroy(gameObject); 
+        }
     }
 }

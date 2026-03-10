@@ -4,6 +4,8 @@ public class Selector : MonoBehaviour
 {
     public bool stationary;
     public Vector2 TPos;
+
+    public SpriteRenderer r;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,6 +18,7 @@ public class Selector : MonoBehaviour
             {
                 Vector2Int clickedPos = new Vector2Int(Mathf.FloorToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).x + 0.5f), Mathf.FloorToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).y + 0.5f));
                 TPos = (Vector2)clickedPos;
+                
                 PlayerStats.me.SelectBlock(Generator.me.GetBlockAt(Vector2Int.RoundToInt(TPos)), Vector2Int.RoundToInt(TPos));
             }
     }
@@ -28,6 +31,16 @@ public class Selector : MonoBehaviour
         {
             Vector2Int clickedPos = new Vector2Int(Mathf.FloorToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).x + 0.5f), Mathf.FloorToInt(Camera.main.ScreenToWorldPoint(Input.mousePosition).y + 0.5f));
             TPos = (Vector2)clickedPos;
+
+            if(PlayerStats.me.action == 1){
+            r.color = PlayerStats.me.coloursBuild[PlayerStats.me.selection];
+            } else if(PlayerStats.me.action == 5)
+            {
+               r.color = PlayerStats.me.coloursTransmit[PlayerStats.me.selection]; 
+            } else
+            {
+                r.color = PlayerStats.me.coloursMisc[0];
+            }
         }
 
         transform.position = Vector3.Lerp(transform.position, (Vector3)TPos, 0.25f);

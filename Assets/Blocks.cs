@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using System.Collections;
+using System.Linq;
 
 public class Blocks : MonoBehaviour
 {
@@ -93,18 +95,23 @@ public class Blocks : MonoBehaviour
         public bool canSendResources;
         public int sendingIndex;
 
-        public Block(Vector2Int pos, Vector2Int cpos)
+        public bool busy;
+
+        public Block(Vector2Int pos, Vector2Int cpos, int t)
         {
+            busy = false;
             canSendResources = true;
-            Type = 0;
+            Type = t;
             relPos = pos;
             absPos = pos + cpos;
             Vector3 APos = new Vector3((float)(absPos.x), (float)(absPos.y), 0);
             circuit = 0;
-            GameObject tile = Instantiate(Generator.me.objPf[1], APos, Quaternion.identity);
+            GameObject tile = Instantiate(Generator.me.objPf[t + 1], APos, Quaternion.identity);
             gobj = tile;
             spr = tile.GetComponent<SpriteRenderer>();
+            if(gobj.transform.childCount > 0){
             txt = gobj.transform.GetChild(0).GetComponent<TMP_Text>();
+            }
         }
         public bool CheckIsItemChangeValid(bool IO, int i, int c)
         {
@@ -112,7 +119,7 @@ public class Blocks : MonoBehaviour
             {
                 if (ItemsIn.ContainsKey(i))
                 {
-                    if(c > 0)
+                    if(c >= 0)
                     {
                         return true;
                     } else if(c < 0 && ItemsIn[i] - c >= 0)
@@ -132,7 +139,7 @@ public class Blocks : MonoBehaviour
             {
                 if (ItemsOut.ContainsKey(i))
                 {
-                    if(c > 0)
+                    if(c >= 0)
                     {
                         return true;
                     } else if(c < 0 && ItemsOut[i] - c >= 0)
@@ -145,7 +152,7 @@ public class Blocks : MonoBehaviour
                     }
                 } else
                 {
-
+                    
                     return c >= 0;
                 }
             }
@@ -160,9 +167,9 @@ public class Blocks : MonoBehaviour
 
         public void TrySendResources()
         {
-            if(ConnectionsOutPos.Count > 0 && canSendResources){
+            if(ConnectionsOutPos.Count > 0 && canSendResources && ItemsOut.Count > 0){
             GameObject q = Instantiate(Blocks.me.Transmission, Vector3.zero, Quaternion.identity);
-            q.GetComponent<ItemTransmission>().Go(this, Generator.me.GetBlockAt(ConnectionsOutPos[sendingIndex]), 0, 1);
+            q.GetComponent<ItemTransmission>().Go(this, Generator.me.GetBlockAt(ConnectionsOutPos[sendingIndex]), ItemsOut.ElementAt(0).Key, 1);
             ChangeSendingIndex();
             }
         }
@@ -180,6 +187,10 @@ public class Blocks : MonoBehaviour
                     {
                         ItemsIn.Add(i, c);
                     }
+                    if(ItemsIn[i] <= 0)
+                    {
+                        ItemsIn.Remove(i);
+                    }
                 
             } else
                 {
@@ -190,9 +201,25 @@ public class Blocks : MonoBehaviour
                     {
                         ItemsOut.Add(i, c);
                     }
+                    if(ItemsOut[i] <= 0)
+                    {
+                        ItemsOut.Remove(i);
+                    }
                 }
             }
             
+        }
+        public void MiningBlockLogic(Terrain t)
+        {
+            me.StartCoroutine(Mine(t));
+
+        }
+        private IEnumerator Mine(Terrain t)
+        {
+            busy = true;
+            yield return new WaitForSeconds(1f);
+            busy = false;
+            ChangeItemCount(false, t.Resource, 1);
         }
     }
 }
