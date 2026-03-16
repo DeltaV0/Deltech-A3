@@ -43,7 +43,7 @@ public class Blocks : MonoBehaviour
             spr = tile.GetComponent<SpriteRenderer>();
 
 
-            if(noise > 0.75f + UnityEngine.Random.Range(-0.1f, 0.1f)){
+            if(noise < 0.25f + UnityEngine.Random.Range(-0.1f, 0.1f)){
                 
                 if(noiseR[1] > 0.5f)
                 {
@@ -59,7 +59,7 @@ public class Blocks : MonoBehaviour
                 Resource = 0;
             }
             if(Resource == 0){
-                spr.color = Color.HSVToRGB(0.45f + UnityEngine.Random.Range(-0.05f, 0.05f), 0.45f + noise * 0.1f, 0.65f + noise * 0.1f);
+                spr.color = Color.HSVToRGB(0.4f + UnityEngine.Random.Range(-0.01f, 0.01f), 0.65f + noise * 0.2f, 0.1f + noise * 0.9f);
             } else if(Resource == 1)
             {
                 spr.color = new Color(noiseR[0] * 0.5f + UnityEngine.Random.Range(0, 0.1f), noiseR[0] * 0.5f, noiseR[0] * 0.5f, 1f);
@@ -218,6 +218,18 @@ public class Blocks : MonoBehaviour
         {
             me.StartCoroutine(Mine(t));
 
+        }
+
+        public bool CheckIfCanPerformRecipe(Recipes.Recipe r)
+        {
+            for(int i = 0; i < r.In.Count; i++)
+            {
+                if(!CheckIsItemChangeValid(true, r.In.ElementAt(i).Key, r.In.ElementAt(i).Value))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
         private IEnumerator Mine(Terrain t)
         {

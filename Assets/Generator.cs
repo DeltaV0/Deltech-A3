@@ -74,6 +74,18 @@ public class Generator : MonoBehaviour
                             block.ItemsIn.Remove(block.ItemsIn.ElementAt(0).Key);
                         }
                         block.TrySendResources();
+                    } else if(block.Type == 2)
+                    {
+                        block.txt.text = "";
+                        if (block.ItemsOut.Count > 0)
+                        {
+                           block.txt.text += terrain[block.relPos].Resource + ", " + block.ItemsOut[terrain[block.relPos].Resource] ;
+                        }
+                        
+                        if(block.ItemsIn.Count > 0){
+                            block.txt.text += "\n" + block.ItemsIn.ElementAt(0).Key + ", " + block.ItemsIn.ElementAt(0).Value;
+                        }
+                        block.TrySendResources();
                     }
             }
             }
@@ -168,7 +180,7 @@ public class Generator : MonoBehaviour
         n += PN(p.x * 0.1f, p.y * 0.1f) * 0.25f;
         n += PN(p.x * 0.2f, p.y * 0.2f) * 0.1f;
 
-        n = Mathf.Round(n * 50) / 50;
+        n = Mathf.Round(n * 32) / 32;
         
        return n; 
     }
@@ -178,11 +190,11 @@ public class Generator : MonoBehaviour
         //float n = 0;
         if(i == 1)
         {
-            return (Mathf.Pow(PN(p.x * 1 * 5f, p.y * 1 * 5f), 4) + Random.Range(-0.2f, 0.2f)) > 0.75f ? 1 : 0;
+            return (Mathf.Pow(PN(p.x * 1 * 5f, p.y * 1 * 5f), 4) + Random.Range(-0.2f, 0.2f)) > 0.5f ? 1 : 0;
         }
         if(i == 2)
         {
-            return (Mathf.Pow(PN(p.x * 0.5f * 5f, p.y * 2f * 5f), 4) + Random.Range(-0.2f, 0.2f)) > 0.8f ? 1 : 0;
+            return (Mathf.Pow(PN(p.x * 0.5f * 5f, p.y * 2f * 5f), 4) + Random.Range(-0.2f, 0.2f)) > 0.7f ? 1 : 0;
         }
         return 0;
     }

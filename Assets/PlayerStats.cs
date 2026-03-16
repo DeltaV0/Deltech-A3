@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -18,12 +19,54 @@ public class PlayerStats : MonoBehaviour
     public Color[] coloursBuild;
     public Color[] coloursTransmit;
     public Color[] coloursMisc;
+
+    public Dictionary<int, int> Items = new Dictionary<int, int>(); 
     //public Blocks.Block bEnd;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         me = this;
         selection = 0;
+    }
+
+    public bool CheckIfCanChangeItems(int i, int c)
+    {
+        if (Items.ContainsKey(i))
+                {
+                    if(c >= 0)
+                    {
+                        return true;
+                    } else if(c < 0 && Items[i] - c >= 0)
+                    {
+                        return true;
+
+                    } else
+                    {
+                        return false;
+                    }
+                } else
+                {
+
+                    return c >= 0;
+                }
+    }
+
+    public void ChangeValue(int i, int c)
+    {
+        if(CheckIfCanChangeItems(i, c))
+        {
+            if (Items.ContainsKey(i))
+                    {
+                        Items[i] += c;
+                    } else
+                    {
+                        Items.Add(i, c);
+                    }
+                    if(Items[i] <= 0)
+                    {
+                        Items.Remove(i);
+                    }
+        }
     }
 
 

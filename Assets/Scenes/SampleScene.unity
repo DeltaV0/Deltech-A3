@@ -1061,6 +1061,7 @@ GameObject:
   - component: {fileID: 1089174043}
   - component: {fileID: 1089174047}
   - component: {fileID: 1089174046}
+  - component: {fileID: 1089174048}
   m_Layer: 0
   m_Name: Generator
   m_TagString: Untagged
@@ -1098,6 +1099,7 @@ MonoBehaviour:
   - {fileID: 988908941784440864, guid: f467dc00b0f0a6246809693727e8ed3f, type: 3}
   - {fileID: 7763998173026048903, guid: 85b20fbda9bd21c4a986ed3f731bb49d, type: 3}
   - {fileID: 4037942205579745957, guid: 22405ed3471490548b38ff4d1fc2c4c2, type: 3}
+  - {fileID: 4877524190945109034, guid: 106ec0966c9cec84c956caf6f7e2a47e, type: 3}
   cPos: {x: 0, y: 0}
 --- !u!4 &1089174045
 Transform:
@@ -1150,6 +1152,7 @@ MonoBehaviour:
     canSendResources: 0
     sendingIndex: 0
     busy: 0
+    size: {x: 0, y: 0}
   action: 0
   mouseOverUI: 0
   bStart:
@@ -1164,17 +1167,31 @@ MonoBehaviour:
     canSendResources: 0
     sendingIndex: 0
     busy: 0
+    size: {x: 0, y: 0}
   selection: 0
   MaxSelection: 0
   coloursBuild:
   - {r: 1, g: 0.6462264, b: 0.6462264, a: 1}
   - {r: 0.64705884, g: 1, b: 0.6905303, a: 1}
+  - {r: 1, g: 0.64705884, b: 0.88626224, a: 1}
   coloursTransmit:
   - {r: 0.6132076, g: 0.5710599, b: 0.46569064, a: 1}
   - {r: 1, g: 0.781999, b: 0.19339621, a: 1}
   - {r: 0.19215685, g: 0.9483615, b: 1, a: 1}
   coloursMisc:
   - {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &1089174048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089174042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46611757f4fcc4f4db89907fdbae3027, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1149297547
 GameObject:
   m_ObjectHideFlags: 0
