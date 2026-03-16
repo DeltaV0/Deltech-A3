@@ -35,8 +35,8 @@ public class Blocks : MonoBehaviour
 
             noise = Generator.me.GetNoiseAtPos((Vector2)APos);
             noiseR = new float[2];
-            noiseR[0] = Generator.me.GetResourceNoiseAtPos((Vector2)APos * 1.25f) - 0.1f;
-            noiseR[1] = Generator.me.GetResourceNoiseAtPos((Vector2)APos * 2f);
+            noiseR[0] = Generator.me.GetResourceNoiseAtPos((Vector2)APos, 1);
+            noiseR[1] = Generator.me.GetResourceNoiseAtPos((Vector2)APos, 2);
 
             GameObject tile = Instantiate(Generator.me.objPf[0], APos, Quaternion.identity);
             gobj = tile;
@@ -45,10 +45,10 @@ public class Blocks : MonoBehaviour
 
             if(noise > 0.75f + UnityEngine.Random.Range(-0.1f, 0.1f)){
                 
-                if(noiseR[1] > 2.25f + UnityEngine.Random.Range(-0.1f, 0.1f))
+                if(noiseR[1] > 0.5f)
                 {
                     Resource = 2;
-                } else if(noiseR[0] > 0.6f + UnityEngine.Random.Range(-0.1f, 0.1f) && noiseR[0] < 0.9f + UnityEngine.Random.Range(-0.1f, 0.1f)){
+                } else if(noiseR[0] > 0.5f){
                 Resource = 1;
                 } else
                 {

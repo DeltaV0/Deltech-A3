@@ -159,16 +159,32 @@ public class Generator : MonoBehaviour
     public float GetNoiseAtPos(Vector2 p)
     {
         float n = 0;
-        n = Mathf.Pow(PN(p.x, p.y) + PN(p.x * 2, p.y * 2) * 0.5f + PN(p.x * 4, p.y * 4) * 0.25f - 0.1f, 5)  - Mathf.Pow(PN(p.x, p.y) * 1.25f, 6) * 0.3f + PN(p.x, p.y);
-        n *= 0.5f;
+        for(int i = 1; i < 10; i++)
+        {
+            n += PN(p.x * i * 0.5f, p.y * i * 0.5f) / (i * 0.5f);
+        }
+        n *= 0.2f;
+        n = Mathf.Pow(n, 8);
+        n += PN(p.x * 0.1f, p.y * 0.1f) * 0.25f;
+        n += PN(p.x * 0.2f, p.y * 0.2f) * 0.1f;
+
+        n = Mathf.Round(n * 50) / 50;
+        
        return n; 
     }
 
-    public float GetResourceNoiseAtPos(Vector2 p)
+    public float GetResourceNoiseAtPos(Vector2 p, int i)
     {
-        float n = 0;
-        n = Mathf.Pow(PN(p.x, p.y) + PN(p.x * 0.5f, p.y * 0.5f) * 0.5f + PN(p.x * 0.25f, p.y * 0.25f) * 0.25f - 0.1f, 4);
-       return n; 
+        //float n = 0;
+        if(i == 1)
+        {
+            return (Mathf.Pow(PN(p.x * 1, p.y * 1), 4) + Random.Range(-0.2f, 0.2f)) > 0.75f ? 1 : 0;
+        }
+        if(i == 2)
+        {
+            return (Mathf.Pow(PN(p.x * 0.5f, p.y * 2f), 4) + Random.Range(-0.2f, 0.2f)) > 0.8f ? 1 : 0;
+        }
+        return 0;
     }
 
     private float PN(float x, float y)
