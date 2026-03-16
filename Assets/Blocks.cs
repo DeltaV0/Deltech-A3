@@ -49,7 +49,7 @@ public class Blocks : MonoBehaviour
                 {
                     Resource = 2;
                 } else if(noiseR[0] > 0.5f){
-                Resource = 1;
+                    Resource = 1;
                 } else
                 {
                   Resource = 0;  
@@ -59,7 +59,7 @@ public class Blocks : MonoBehaviour
                 Resource = 0;
             }
             if(Resource == 0){
-                spr.color = new Color(noise * 0.5f, noise * 0.5f, noise * 0.5f, 1f);
+                spr.color = Color.HSVToRGB(0.45f + UnityEngine.Random.Range(-0.05f, 0.05f), 0.45f + noise * 0.1f, 0.65f + noise * 0.1f);
             } else if(Resource == 1)
             {
                 spr.color = new Color(noiseR[0] * 0.5f + UnityEngine.Random.Range(0, 0.1f), noiseR[0] * 0.5f, noiseR[0] * 0.5f, 1f);
@@ -97,8 +97,13 @@ public class Blocks : MonoBehaviour
 
         public bool busy;
 
+        public Vector2Int size;
+
         public Block(Vector2Int pos, Vector2Int cpos, int t)
         {
+            size.x = 1;
+            size.y = 1;
+
             busy = false;
             canSendResources = true;
             Type = t;

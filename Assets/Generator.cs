@@ -173,16 +173,16 @@ public class Generator : MonoBehaviour
        return n; 
     }
 
-    public float GetResourceNoiseAtPos(Vector2 p, int i)
+    public int GetResourceNoiseAtPos(Vector2 p, int i)
     {
         //float n = 0;
         if(i == 1)
         {
-            return (Mathf.Pow(PN(p.x * 1, p.y * 1), 4) + Random.Range(-0.2f, 0.2f)) > 0.75f ? 1 : 0;
+            return (Mathf.Pow(PN(p.x * 1 * 5f, p.y * 1 * 5f), 4) + Random.Range(-0.2f, 0.2f)) > 0.75f ? 1 : 0;
         }
         if(i == 2)
         {
-            return (Mathf.Pow(PN(p.x * 0.5f, p.y * 2f), 4) + Random.Range(-0.2f, 0.2f)) > 0.8f ? 1 : 0;
+            return (Mathf.Pow(PN(p.x * 0.5f * 5f, p.y * 2f * 5f), 4) + Random.Range(-0.2f, 0.2f)) > 0.8f ? 1 : 0;
         }
         return 0;
     }
