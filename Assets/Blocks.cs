@@ -34,9 +34,10 @@ public class Blocks : MonoBehaviour
             Vector3 APos = new Vector3((float)(absPos.x), (float)(absPos.y), 0);
 
             noise = Generator.me.GetNoiseAtPos((Vector2)APos);
-            noiseR = new float[2];
+            noiseR = new float[3];
             noiseR[0] = Generator.me.GetResourceNoiseAtPos((Vector2)APos, 1);
             noiseR[1] = Generator.me.GetResourceNoiseAtPos((Vector2)APos, 2);
+            noiseR[2] = Generator.me.GetResourceNoiseAtPos((Vector2)APos, 3);
 
             GameObject tile = Instantiate(Generator.me.objPf[0], APos, Quaternion.identity);
             gobj = tile;
@@ -50,7 +51,9 @@ public class Blocks : MonoBehaviour
                     Resource = 2;
                 } else if(noiseR[0] > 0.5f){
                     Resource = 1;
-                } else
+                } else if(noiseR[2] > 0.5f){
+                    Resource = 3;
+                }else
                 {
                   Resource = 0;  
                 }
@@ -67,6 +70,10 @@ public class Blocks : MonoBehaviour
             } else if(Resource == 2)
             {
                 spr.color = new Color(noiseR[1] * 0.5f + UnityEngine.Random.Range(0, 0.1f), noiseR[1] * 0.2f, noiseR[1] * 0.9f, 1f);
+
+            } else if(Resource == 3)
+            {
+                spr.color = new Color(noiseR[2] * 0.3f + UnityEngine.Random.Range(0, 0.1f), noiseR[2] * 0.7f, noiseR[2] * 0.4f, 1f);
 
             }
         }
@@ -222,7 +229,9 @@ public class Blocks : MonoBehaviour
         }
         public void MiningBlockLogic(Terrain t)
         {
+            if(t.Resource != 0){
             me.StartCoroutine(Mine(t));
+            }
 
         }
 
@@ -240,14 +249,18 @@ public class Blocks : MonoBehaviour
 
         public void Craft()
         {
-            Recipes.Recipe r = Recipes.me.recipes[1];
+            Recipes.Recipe r;
+            for(int qr = 0; qr < Recipes.me.recipes.Count; qr++){
+            r = Recipes.me.recipes.ElementAt(qr).Value;
             if (CheckIfCanPerformRecipe(r) && !busy)
             {
-                for(int i = 0; i < r.Out.Count; i++)
+                for(int i = 0; i < r.In.Count; i++)
                 {
-                    ChangeItemCount(true, r.Out.ElementAt(i).Key, -1 * r.Out.ElementAt(i).Value);
+                    ChangeItemCount(true, r.In.ElementAt(i).Key, -1 * r.In.ElementAt(i).Value);
                 }
                 me.StartCoroutine(craft(r));
+                break;
+            }
             }
         }
         private IEnumerator craft(Recipes.Recipe r)

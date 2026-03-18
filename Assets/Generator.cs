@@ -50,6 +50,7 @@ public class Generator : MonoBehaviour
 
         public void RunBuildingLogic()
         {   
+            //spaghetti!!! fix this!!!
             if(buildings.Count > 0){
             for(int i = 0; i < buildings.Count; i++)
             {
@@ -63,11 +64,14 @@ public class Generator : MonoBehaviour
                         block.txt.text = "";
                         if (block.ItemsOut.Count > 0)
                         {
-                           block.txt.text += terrain[block.relPos].Resource + ", " + block.ItemsOut[terrain[block.relPos].Resource] ;
+                            for(int q = 0; q < block.ItemsOut.Count; q++)
+                            {
+                                block.txt.text += block.ItemsOut.ElementAt(q).Key + ", " + block.ItemsOut.ElementAt(q).Value + "\n";
+                            }
+                           
                         }
                         
                         if(block.ItemsIn.Count > 0){
-                            block.txt.text += "\n" + block.ItemsIn.ElementAt(0).Key + ", " + block.ItemsIn.ElementAt(0).Value;
                             block.ChangeItemCount(false, block.ItemsIn.ElementAt(0).Key, block.ItemsIn.ElementAt(0).Value);
                             block.ItemsIn.Remove(block.ItemsIn.ElementAt(0).Key);
                         }
@@ -85,11 +89,14 @@ public class Generator : MonoBehaviour
                         block.txt.text = "";
                         if (block.ItemsOut.Count > 0)
                         {
-                           block.txt.text += terrain[block.relPos].Resource + ", " + block.ItemsOut[terrain[block.relPos].Resource] ;
+                           for(int q = 0; q< block.ItemsOut.Count; q++)
+                            {
+                                block.txt.text += block.ItemsOut.ElementAt(q).Key + ", " + block.ItemsOut.ElementAt(q).Value + "\n";
+                            }
                         }
                         
                         if(block.ItemsIn.Count > 0){
-                            block.txt.text += "\n" + block.ItemsIn.ElementAt(0).Key + ", " + block.ItemsIn.ElementAt(0).Value;
+                            
                             block.ChangeItemCount(false, block.ItemsIn.ElementAt(0).Key, block.ItemsIn.ElementAt(0).Value);
                             block.ItemsIn.Remove(block.ItemsIn.ElementAt(0).Key);
                         }
@@ -99,16 +106,24 @@ public class Generator : MonoBehaviour
                         block.txt.text = "";
                         if (block.ItemsOut.Count > 0)
                         {
-                           block.txt.text += block.ItemsOut.ElementAt(0).Key + ", " + block.ItemsOut.ElementAt(0).Value;
+                           for(int q = 0; q < block.ItemsOut.Count; q++)
+                            {
+                                block.txt.text += block.ItemsOut.ElementAt(q).Key + ", " + block.ItemsOut.ElementAt(q).Value + "\n";
+                            }
                         }
+
+                        block.txt.text += "-------\n";
                         
                         if(block.ItemsIn.Count > 0){
-                            block.txt.text += "\n" + block.ItemsIn.ElementAt(0).Key + ", " + block.ItemsIn.ElementAt(0).Value;
+                            for(int q = 0; q < block.ItemsIn.Count; q++)
+                            {
+                                block.txt.text += block.ItemsIn.ElementAt(q).Key + ", " + block.ItemsIn.ElementAt(q).Value + "\n";
+                            }
                         }
                         block.Craft();
                         if (block.busy)
                         {
-                            block.txt.text += "\n Crafting!!!";
+                            block.txt.text += "Crafting!!!";
                         }
                         block.TrySendResources();
                     }
@@ -220,6 +235,10 @@ public class Generator : MonoBehaviour
         if(i == 2)
         {
             return (Mathf.Pow(PN(p.x * 0.5f * 5f, p.y * 2f * 5f), 4) + Random.Range(-0.2f, 0.2f)) > 0.7f ? 1 : 0;
+        } 
+        if(i == 3)
+        {
+            return (Mathf.Pow(PN(p.x * 2f * 5f, p.y * 0.25f * 3f), 3) + Random.Range(-0.3f, 0.3f)) > 0.8f ? 1 : 0;
         }
         return 0;
     }

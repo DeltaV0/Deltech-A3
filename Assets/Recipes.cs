@@ -11,7 +11,8 @@ public class Recipes : MonoBehaviour
     void Start()
     {
       me = this;  
-      AddRecipe(new int[]{0}, new int[]{1}, new int[]{5}, new int[]{1}, 1, 2f);
+      AddRecipe(new int[]{1, 2}, new int[]{1,1}, new int[]{5}, new int[]{2}, 1, 2f);
+      AddRecipe(new int[]{5, 3}, new int[]{3,2}, new int[]{6}, new int[]{1}, 2, 3f);
     }
     public void AddRecipe(int[] iI, int[] iC, int[] oI, int[] oC, int ID, float time)
     {

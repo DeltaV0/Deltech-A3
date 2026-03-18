@@ -23,10 +23,11 @@ public class ItemTransmission : MonoBehaviour
         if(exiting.CheckIsItemChangeValid(false, ID, -1 * Count)){
         exiting.ChangeItemCount(false, ID, -1 * Count);
         exiting.canSendResources = false;
+        Vector2 Offset = Functions.MidPoint(Start, T) + (Random.insideUnitCircle * Vector2.Distance(Start, T) * 0.25f);
         for(int i = 0; i < (int)Distance * 10; i++)
         {
             float t = (float)i / (Distance * 10);
-            transform.position = (Vector3)Vector2.Lerp(Start, T, Mathf.Pow(t-1, 5) + 1);
+            transform.position = (Vector3)Functions.Bezier(Start, T, Offset, Mathf.Pow(t-1, 5) + 1);
             yield return new WaitForSeconds(0.01f);
         }
         exiting.canSendResources = true;
@@ -37,4 +38,6 @@ public class ItemTransmission : MonoBehaviour
            Destroy(gameObject); 
         }
     }
+
+
 }
