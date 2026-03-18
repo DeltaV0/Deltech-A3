@@ -10,7 +10,7 @@ public class Generator : MonoBehaviour
     {
         public Vector2Int pos;
         Dictionary<Vector2Int, Blocks.Terrain> terrain = new Dictionary<Vector2Int, Blocks.Terrain>();
-        Dictionary<Vector2Int, Blocks.Block> buildings = new Dictionary<Vector2Int, Blocks.Block>();
+        public Dictionary<Vector2Int, Blocks.Block> buildings = new Dictionary<Vector2Int, Blocks.Block>();
         public Chunk(Vector2Int position)
         {
             terrain.Clear();
@@ -39,6 +39,12 @@ public class Generator : MonoBehaviour
         {
             if(!buildings.ContainsKey(position)){
                 buildings.Add(position, new Blocks.Block(position - pos, pos, i));
+            }
+        }
+
+        public void Break(Vector2Int position){
+            if(buildings.ContainsKey(position)){
+                buildings[position].destroy();
             }
         }
 
@@ -84,6 +90,25 @@ public class Generator : MonoBehaviour
                         
                         if(block.ItemsIn.Count > 0){
                             block.txt.text += "\n" + block.ItemsIn.ElementAt(0).Key + ", " + block.ItemsIn.ElementAt(0).Value;
+                            block.ChangeItemCount(false, block.ItemsIn.ElementAt(0).Key, block.ItemsIn.ElementAt(0).Value);
+                            block.ItemsIn.Remove(block.ItemsIn.ElementAt(0).Key);
+                        }
+                        block.TrySendResources();
+                    } else if(block.Type == 3)
+                    {
+                        block.txt.text = "";
+                        if (block.ItemsOut.Count > 0)
+                        {
+                           block.txt.text += block.ItemsOut.ElementAt(0).Key + ", " + block.ItemsOut.ElementAt(0).Value;
+                        }
+                        
+                        if(block.ItemsIn.Count > 0){
+                            block.txt.text += "\n" + block.ItemsIn.ElementAt(0).Key + ", " + block.ItemsIn.ElementAt(0).Value;
+                        }
+                        block.Craft();
+                        if (block.busy)
+                        {
+                            block.txt.text += "\n Crafting!!!";
                         }
                         block.TrySendResources();
                     }

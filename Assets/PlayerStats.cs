@@ -112,6 +112,9 @@ public class PlayerStats : MonoBehaviour
             } else {
                 bStart = null;
             }
+        } else if(action == -1)
+        {
+            Generator.me.GetChunkAt(p).Break(p);
         }
         
     }
@@ -152,7 +155,19 @@ public class PlayerStats : MonoBehaviour
                t.text = coloursTransmit[selection].name; 
             } else
             {
+                if(action == -1){
                 t.text = coloursMisc[0].name;
+                } else if(action == -5)
+            {
+                t.text = coloursMisc[1].name;
+            }else if(action == 0)
+            {
+                if(selectedBlock != null)
+                {
+                    selectedBlock.circuit += (int)Mathf.Round(Input.mouseScrollDelta.y);
+                }
+                t.text = coloursMisc[2].name;
+            }
             }
 
     }

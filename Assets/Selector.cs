@@ -39,7 +39,15 @@ public class Selector : MonoBehaviour
                r.color = PlayerStats.me.coloursTransmit[PlayerStats.me.selection].color; 
             } else
             {
+                if(PlayerStats.me.action == -1){
                 r.color = PlayerStats.me.coloursMisc[0].color;
+                } else if(PlayerStats.me.action == -5)
+            {
+                r.color = PlayerStats.me.coloursMisc[1].color;
+            }else if(PlayerStats.me.action == 0)
+            {
+                r.color = PlayerStats.me.coloursMisc[2].color;
+            }
             }
         }
 

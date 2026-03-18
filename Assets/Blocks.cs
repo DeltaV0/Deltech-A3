@@ -118,6 +118,12 @@ public class Blocks : MonoBehaviour
             txt = gobj.transform.GetChild(0).GetComponent<TMP_Text>();
             }
         }
+
+        public void destroy()
+        {
+            Destroy(gobj);
+            Generator.me.GetChunkAt(absPos).buildings.Remove(absPos);
+        }
         public bool CheckIsItemChangeValid(bool IO, int i, int c)
         {
             if (IO)
@@ -224,12 +230,36 @@ public class Blocks : MonoBehaviour
         {
             for(int i = 0; i < r.In.Count; i++)
             {
-                if(!CheckIsItemChangeValid(true, r.In.ElementAt(i).Key, r.In.ElementAt(i).Value))
+                if(!CheckIsItemChangeValid(true, r.In.ElementAt(i).Key, -1 * r.In.ElementAt(i).Value))
                 {
                     return false;
                 }
             }
             return true;
+        }
+
+        public void Craft()
+        {
+            Recipes.Recipe r = Recipes.me.recipes[1];
+            if (CheckIfCanPerformRecipe(r) && !busy)
+            {
+                for(int i = 0; i < r.Out.Count; i++)
+                {
+                    ChangeItemCount(true, r.Out.ElementAt(i).Key, -1 * r.Out.ElementAt(i).Value);
+                }
+                me.StartCoroutine(craft(r));
+            }
+        }
+        private IEnumerator craft(Recipes.Recipe r)
+        {
+            busy = true;
+            yield return new WaitForSeconds(r.Time);
+            busy = false;
+            for(int i = 0; i < r.Out.Count; i++)
+            {
+                ChangeItemCount(false, r.Out.ElementAt(i).Key, r.Out.ElementAt(i).Value);
+            }
+            
         }
         private IEnumerator Mine(Terrain t)
         {
