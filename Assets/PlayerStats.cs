@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -16,9 +17,18 @@ public class PlayerStats : MonoBehaviour
 
     public int MaxSelection;
 
-    public Color[] coloursBuild;
-    public Color[] coloursTransmit;
-    public Color[] coloursMisc;
+    public TMP_Text t;
+
+    [System.Serializable]
+    public class Selectable
+    {
+        public string name;
+        public Color color;
+    }
+
+    public Selectable[] coloursBuild;
+    public Selectable[] coloursTransmit;
+    public Selectable[] coloursMisc;
 
     public Dictionary<int, int> Items = new Dictionary<int, int>(); 
     //public Blocks.Block bEnd;
@@ -135,7 +145,15 @@ public class PlayerStats : MonoBehaviour
             {
                 selection = MaxSelection;
             }
-        
+        if(action == 1){
+            t.text = coloursBuild[selection].name;
+            } else if(action == 5)
+            {
+               t.text = coloursTransmit[selection].name; 
+            } else
+            {
+                t.text = coloursMisc[0].name;
+            }
 
     }
 }

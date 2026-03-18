@@ -33,13 +33,13 @@ public class Selector : MonoBehaviour
             TPos = (Vector2)clickedPos;
 
             if(PlayerStats.me.action == 1){
-            r.color = PlayerStats.me.coloursBuild[PlayerStats.me.selection];
+            r.color = PlayerStats.me.coloursBuild[PlayerStats.me.selection].color;
             } else if(PlayerStats.me.action == 5)
             {
-               r.color = PlayerStats.me.coloursTransmit[PlayerStats.me.selection]; 
+               r.color = PlayerStats.me.coloursTransmit[PlayerStats.me.selection].color; 
             } else
             {
-                r.color = PlayerStats.me.coloursMisc[0];
+                r.color = PlayerStats.me.coloursMisc[0].color;
             }
         }
 

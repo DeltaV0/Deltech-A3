@@ -12,7 +12,7 @@ public class Recipes : MonoBehaviour
     {
       me = this;  
     }
-
+    [System.Serializable]
     public class Recipe
     {
         public Dictionary<int, int> In;
