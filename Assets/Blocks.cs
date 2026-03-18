@@ -106,10 +106,10 @@ public class Blocks : MonoBehaviour
 
         public Vector2Int size;
 
-        public Block(Vector2Int pos, Vector2Int cpos, int t)
+        public Block(Vector2Int pos, Vector2Int cpos, int t, Vector2Int sze)
         {
-            size.x = 1;
-            size.y = 1;
+            size.x = sze.x;
+            size.y = sze.y;
 
             busy = false;
             canSendResources = true;
@@ -186,9 +186,15 @@ public class Blocks : MonoBehaviour
         public void TrySendResources()
         {
             if(ConnectionsOutPos.Count > 0 && canSendResources && ItemsOut.Count > 0){
+                if(ConnectionsOutPos[sendingIndex] != null){
             GameObject q = Instantiate(Blocks.me.Transmission, Vector3.zero, Quaternion.identity);
             q.GetComponent<ItemTransmission>().Go(this, Generator.me.GetBlockAt(ConnectionsOutPos[sendingIndex]), ItemsOut.ElementAt(0).Key, 1);
-            ChangeSendingIndex();
+            
+                } else
+                {
+                    ConnectionsOutPos.RemoveAt(sendingIndex);
+                }
+                ChangeSendingIndex();
             }
         }
 

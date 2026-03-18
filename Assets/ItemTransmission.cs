@@ -15,7 +15,9 @@ public class ItemTransmission : MonoBehaviour
         Count = C;
         exiting = s;
         Target = e;
+        if(Target != null){
         StartCoroutine(GoToTarget(Vector2.Distance(exiting.absPos, Target.absPos), exiting.absPos, Target.absPos));
+        }
     }
 
     private IEnumerator GoToTarget(float Distance, Vector2 Start, Vector2 T)
@@ -31,7 +33,9 @@ public class ItemTransmission : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
         exiting.canSendResources = true;
+        if(Target != null){
         Target.ChangeItemCount(true, ID, Count);
+        }
         Destroy(gameObject);
         } else
         {

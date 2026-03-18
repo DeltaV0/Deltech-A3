@@ -38,7 +38,7 @@ public class Generator : MonoBehaviour
         public void Build(Vector2Int position, int i)
         {
             if(!buildings.ContainsKey(position)){
-                buildings.Add(position, new Blocks.Block(position - pos, pos, i));
+                buildings.Add(position, new Blocks.Block(position - pos, pos, i, new Vector2Int(1, 1)));
             }
         }
 
@@ -181,7 +181,17 @@ public class Generator : MonoBehaviour
         me = this;
         NoiseOffset = Vector2Int.FloorToInt(Random.insideUnitCircle * (int.MaxValue / 1024));
         Debug.Log(NoiseOffset);
-        
+        for(int cx = -2; cx < 3; cx++)
+        {
+            for(int cy = -2; cy < 3; cy++)
+            {
+                if(GetChunkAt(new Vector2Int(cPos.x + (16 * cx), cPos.y + (16 * cy))) == null)
+                {
+                    GenerateChunk(new Vector2Int(cPos.x + (16 * cx), cPos.y + (16 * cy)));
+                }
+            }
+        }
+        GetChunkAt(new Vector2Int(0, 0)).buildings.Add(new Vector2Int(0, 0), new Blocks.Block(new Vector2Int(0, 0) - GetChunkAt(new Vector2Int(0, 0)).pos, GetChunkAt(new Vector2Int(0, 0)).pos, 2, new Vector2Int(1, 1)));
     }
 
     // Update is called once per frame
