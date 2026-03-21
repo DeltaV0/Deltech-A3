@@ -88,7 +88,7 @@ public class PlayerStats : MonoBehaviour
         }
         if(action == 1)
         {
-            Generator.me.GetChunkAt(p).Build(p, selection);
+            Generator.me.GetChunkAt(p).Build(p, Generator.me.Info[selection]);
 
         } else if(action == 5)
         {

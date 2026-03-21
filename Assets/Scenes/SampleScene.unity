@@ -1097,12 +1097,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NoiseOffset: {x: 0, y: 0}
-  objPf:
-  - {fileID: 988908941784440864, guid: f467dc00b0f0a6246809693727e8ed3f, type: 3}
-  - {fileID: 7763998173026048903, guid: 85b20fbda9bd21c4a986ed3f731bb49d, type: 3}
-  - {fileID: 4037942205579745957, guid: 22405ed3471490548b38ff4d1fc2c4c2, type: 3}
-  - {fileID: 4877524190945109034, guid: 106ec0966c9cec84c956caf6f7e2a47e, type: 3}
-  - {fileID: 8372511516817470857, guid: 1d26587f67d164e45b74cd1e98d95e09, type: 3}
+  info:
+  - ID: -100
+    prefab: {fileID: 988908941784440864, guid: f467dc00b0f0a6246809693727e8ed3f, type: 3}
+    size: 0
+  - ID: 0
+    prefab: {fileID: 7763998173026048903, guid: 85b20fbda9bd21c4a986ed3f731bb49d, type: 3}
+    size: 1
+  - ID: 1
+    prefab: {fileID: 4037942205579745957, guid: 22405ed3471490548b38ff4d1fc2c4c2, type: 3}
+    size: 1
+  - ID: 2
+    prefab: {fileID: 4877524190945109034, guid: 106ec0966c9cec84c956caf6f7e2a47e, type: 3}
+    size: 1
+  - ID: 3
+    prefab: {fileID: 8372511516817470857, guid: 1d26587f67d164e45b74cd1e98d95e09, type: 3}
+    size: 2
   cPos: {x: 0, y: 0}
 --- !u!4 &1089174045
 Transform:

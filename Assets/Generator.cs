@@ -27,19 +27,41 @@ public class Generator : MonoBehaviour
 
         public Blocks.Block GetBlockAt(Vector2Int position)
         {
-            if(buildings.ContainsKey(position)){
-                return buildings[position];
-            } else
+            Blocks.Block sel = null;
+            sel = FindMultiblock(position, 1);
+            if(sel == null)
             {
-                return null;
+               sel = FindMultiblock(position, 2); 
             }
+            return sel;
         }
 
-        public void Build(Vector2Int position, int i)
+        public Blocks.Block FindMultiblock(Vector2Int position, int size)
         {
-            if(!buildings.ContainsKey(position)){
-                buildings.Add(position, new Blocks.Block(position - pos, pos, i, new Vector2Int(1, 1)));
+            for(int x = size - 1; x >= -1 * size + 1; x--)
+            {
+                for(int y = size - 1; y >= -1 * size + 1; y--)
+                    {
+                        if(buildings.ContainsKey(position) && buildings[position].size.x == size)
+                    {
+                        return buildings[position];
+                    }
+                    }
             }
+            return null;
+        }
+
+        public void Build(Vector2Int position, BlockInfo i)
+        {
+            
+            if(!buildings.ContainsKey(position)){
+                Blocks.Block newBlock = new Blocks.Block(position - pos, pos, i.ID, new Vector2Int(i.size, i.size));
+                Debug.Log(i.size);
+                            buildings.Add(position, newBlock);
+                            
+                            }
+            
+            
         }
 
         public void Break(Vector2Int position){
@@ -134,7 +156,18 @@ public class Generator : MonoBehaviour
 
     Dictionary<Vector2Int, Chunk> chunks = new Dictionary<Vector2Int, Chunk>();
     public static Generator me;
-    public GameObject[] objPf;
+
+    [System.Serializable]
+    public class BlockInfo
+    {
+        public int ID;
+        public GameObject prefab;
+
+        public int size;
+    }
+    public BlockInfo[] info;
+    public Dictionary<int, BlockInfo> Info = new Dictionary<int, BlockInfo>();
+    
 
     public Vector2Int cPos;
 
@@ -181,6 +214,10 @@ public class Generator : MonoBehaviour
         me = this;
         NoiseOffset = Vector2Int.FloorToInt(Random.insideUnitCircle * (int.MaxValue / 1024));
         Debug.Log(NoiseOffset);
+        for(int i = 0; i < info.Length; i++)
+        {
+            Info.Add(info[i].ID, info[i]);
+        }
         for(int cx = -2; cx < 3; cx++)
         {
             for(int cy = -2; cy < 3; cy++)

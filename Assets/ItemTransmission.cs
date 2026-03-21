@@ -16,7 +16,7 @@ public class ItemTransmission : MonoBehaviour
         exiting = s;
         Target = e;
         if(Target != null){
-        StartCoroutine(GoToTarget(Vector2.Distance(exiting.absPos, Target.absPos), exiting.absPos, Target.absPos));
+        StartCoroutine(GoToTarget((exiting.absPos - Target.absPos).sqrMagnitude, exiting.absPos, Target.absPos));
         }
     }
 
@@ -25,11 +25,14 @@ public class ItemTransmission : MonoBehaviour
         if(exiting.CheckIsItemChangeValid(false, ID, -1 * Count)){
         exiting.ChangeItemCount(false, ID, -1 * Count);
         exiting.canSendResources = false;
-        Vector2 Offset = Functions.MidPoint(Start, T) + (Random.insideUnitCircle * Vector2.Distance(Start, T) * 0.25f);
+        Vector2 Offset = Functions.MidPoint(Start, T) + (Random.insideUnitCircle * (Start - T).sqrMagnitude * 0.25f);
         for(int i = 0; i < (int)Distance * 10; i++)
         {
             float t = (float)i / (Distance * 10);
+            transform.Rotate(0, 0, (transform.position - (Vector3)Functions.Bezier(Start, T, Offset, Mathf.Pow(t-1, 5) + 1)).sqrMagnitude * 360f * 1.5f);
+
             transform.position = (Vector3)Functions.Bezier(Start, T, Offset, Mathf.Pow(t-1, 5) + 1);
+            
             yield return new WaitForSeconds(0.01f);
         }
         exiting.canSendResources = true;

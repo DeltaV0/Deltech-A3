@@ -39,7 +39,7 @@ public class Blocks : MonoBehaviour
             noiseR[1] = Generator.me.GetResourceNoiseAtPos((Vector2)APos, 2);
             noiseR[2] = Generator.me.GetResourceNoiseAtPos((Vector2)APos, 3);
 
-            GameObject tile = Instantiate(Generator.me.objPf[0], APos, Quaternion.identity);
+            GameObject tile = Instantiate(Generator.me.Info[-100].prefab, APos, Quaternion.identity);
             gobj = tile;
             spr = tile.GetComponent<SpriteRenderer>();
 
@@ -118,7 +118,7 @@ public class Blocks : MonoBehaviour
             absPos = pos + cpos;
             Vector3 APos = new Vector3((float)(absPos.x), (float)(absPos.y), 0);
             circuit = 0;
-            GameObject tile = Instantiate(Generator.me.objPf[t + 1], APos, Quaternion.identity);
+            GameObject tile = Instantiate(Generator.me.Info[t].prefab, APos, Quaternion.identity);
             gobj = tile;
             spr = tile.GetComponent<SpriteRenderer>();
             if(gobj.transform.childCount > 0){
