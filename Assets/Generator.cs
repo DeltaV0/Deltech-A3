@@ -25,26 +25,46 @@ public class Generator : MonoBehaviour
             pos = position;
         }
 
-        public Blocks.Block GetBlockAt(Vector2Int position)
+        public Blocks.Block GetBlockAt(Vector2Int position, bool building = false, int size = 1)
         {
             Blocks.Block sel = null;
-            sel = FindMultiblock(position, 1);
+            if(!building){
+            sel = FindMultiblock(position, 1, 1);
             if(sel == null)
             {
-               sel = FindMultiblock(position, 2); 
+               sel = FindMultiblock(position, 2, 2); 
+            }
+            } else
+            {
+                sel = FindMultiblock(position, 1, 1);
+                if(size == 1)
+                {
+                   if(sel == null)
+                    {
+                    sel = FindMultiblock(position, 2, 2); 
+                    } 
+                } else
+                {
+                    if(sel == null)
+                    {
+                        sel = FindMultiblock(position, 3, 2); 
+                    }
+                }
+                
             }
             return sel;
         }
 
-        public Blocks.Block FindMultiblock(Vector2Int position, int size)
+        public Blocks.Block FindMultiblock(Vector2Int position, int size, int lookingFor)
         {
             for(int x = size - 1; x >= -1 * size + 1; x--)
             {
                 for(int y = size - 1; y >= -1 * size + 1; y--)
                     {
-                        if(buildings.ContainsKey(position) && buildings[position].size.x == size)
+                        if(buildings.ContainsKey(position + new Vector2Int(x, y)) && buildings[position + new Vector2Int(x, y)].size.x == lookingFor)
                     {
-                        return buildings[position];
+                        Debug.Log("yea" + size);
+                        return buildings[position + new Vector2Int(x, y)];
                     }
                     }
             }
@@ -54,7 +74,7 @@ public class Generator : MonoBehaviour
         public void Build(Vector2Int position, BlockInfo i)
         {
             
-            if(!buildings.ContainsKey(position)){
+            if(GetBlockAt(position, true, i.size) == null){
                 Blocks.Block newBlock = new Blocks.Block(position - pos, pos, i.ID, new Vector2Int(i.size, i.size));
                 Debug.Log(i.size);
                             buildings.Add(position, newBlock);
