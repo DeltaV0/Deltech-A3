@@ -61,10 +61,10 @@ public class Generator : MonoBehaviour
             {
                 for(int y = size - 1; y >= -1 * size + 1; y--)
                     {
-                        if(buildings.ContainsKey(position + new Vector2Int(x, y)) && buildings[position + new Vector2Int(x, y)].size.x == lookingFor)
+                        if(Generator.me.GetChunkAt(position + new Vector2Int(x, y)).buildings.ContainsKey(position + new Vector2Int(x, y)) && Generator.me.GetChunkAt(position + new Vector2Int(x, y)).buildings[position + new Vector2Int(x, y)].size.x == lookingFor)
                     {
                         Debug.Log("yea" + size);
-                        return buildings[position + new Vector2Int(x, y)];
+                        return Generator.me.GetChunkAt(position + new Vector2Int(x, y)).buildings[position + new Vector2Int(x, y)];
                     }
                     }
             }
@@ -233,7 +233,6 @@ public class Generator : MonoBehaviour
     {
         me = this;
         NoiseOffset = Vector2Int.FloorToInt(Random.insideUnitCircle * (int.MaxValue / 1024));
-        Debug.Log(NoiseOffset);
         for(int i = 0; i < info.Length; i++)
         {
             Info.Add(info[i].ID, info[i]);
@@ -248,7 +247,7 @@ public class Generator : MonoBehaviour
                 }
             }
         }
-        GetChunkAt(new Vector2Int(0, 0)).buildings.Add(new Vector2Int(0, 0), new Blocks.Block(new Vector2Int(0, 0) - GetChunkAt(new Vector2Int(0, 0)).pos, GetChunkAt(new Vector2Int(0, 0)).pos, 2, new Vector2Int(1, 1)));
+        GetChunkAt(new Vector2Int(0, 0)).Build(new Vector2Int(0, 0) - GetChunkAt(new Vector2Int(0, 0)).pos, Generator.me.Info[-100]);
     }
 
     // Update is called once per frame

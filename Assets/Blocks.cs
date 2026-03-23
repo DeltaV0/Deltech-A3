@@ -39,7 +39,7 @@ public class Blocks : MonoBehaviour
             noiseR[1] = Generator.me.GetResourceNoiseAtPos((Vector2)APos, 2);
             noiseR[2] = Generator.me.GetResourceNoiseAtPos((Vector2)APos, 3);
 
-            GameObject tile = Instantiate(Generator.me.Info[-100].prefab, APos, Quaternion.identity);
+            GameObject tile = Instantiate(Generator.me.Info[-10].prefab, APos, Quaternion.identity);
             gobj = tile;
             spr = tile.GetComponent<SpriteRenderer>();
 
