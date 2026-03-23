@@ -31,6 +31,7 @@ public class PlayerStats : MonoBehaviour
     public Selectable[] coloursMisc;
 
     public Dictionary<int, int> Items = new Dictionary<int, int>(); 
+    public Blocks.Block CoreBlock;
     //public Blocks.Block bEnd;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -100,7 +101,13 @@ public class PlayerStats : MonoBehaviour
             {
                 if(bStart.Type == 1 || b.Type == 1)
                     {
+                        if(!bStart.ConnectionsOutPos.Contains(b.absPos)){
                         bStart.ConnectionsOutPos.Add(b.absPos);
+                        } else
+                        {
+                            bStart.ConnectionsOutPos.Remove(b.absPos);
+                        }
+                        
                // b.ConnectionsIn.Add(bStart);
                         bStart = null;
                     } else
@@ -115,6 +122,13 @@ public class PlayerStats : MonoBehaviour
         } else if(action == -1)
         {
             Generator.me.GetChunkAt(p).Break(p);
+        } else if(action == -5)
+        {
+            Blocks.Terrain t = Generator.me.GetChunkAt(p).terrain[p - Generator.me.GetChunkAt(p).pos];
+            if(t != null && t.Resource != 0){
+            CoreBlock.ChangeItemCount(false, t.Resource, 1);
+            }
+            
         }
         
     }

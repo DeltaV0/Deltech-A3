@@ -304,10 +304,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 64
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1280, y: 720}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -324,19 +324,19 @@ Canvas:
   m_GameObject: {fileID: 384876597}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_RenderMode: 1
+  m_Camera: {fileID: 519420031}
+  m_PlaneDistance: 70.7
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 25
   m_TargetDisplay: 0
 --- !u!224 &384876601
 RectTransform:
@@ -522,7 +522,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c88f5cead0c0b2a4eb05b5900433f8d1, type: 3}
   m_Name: 
@@ -615,7 +615,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: 645915d4ec6299d44961ebe77f6dae40, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1101,21 +1101,35 @@ MonoBehaviour:
   - ID: -10
     prefab: {fileID: 988908941784440864, guid: f467dc00b0f0a6246809693727e8ed3f, type: 3}
     size: 0
+    cost: []
   - ID: 0
     prefab: {fileID: 7763998173026048903, guid: 85b20fbda9bd21c4a986ed3f731bb49d, type: 3}
     size: 1
+    cost:
+    - ID: 1
+      amt: 5
   - ID: 1
     prefab: {fileID: 4037942205579745957, guid: 22405ed3471490548b38ff4d1fc2c4c2, type: 3}
     size: 1
+    cost:
+    - ID: 2
+      amt: 5
   - ID: 2
     prefab: {fileID: 4877524190945109034, guid: 106ec0966c9cec84c956caf6f7e2a47e, type: 3}
     size: 1
+    cost:
+    - ID: 0
+      amt: 0
   - ID: 3
     prefab: {fileID: 8372511516817470857, guid: 1d26587f67d164e45b74cd1e98d95e09, type: 3}
     size: 1
+    cost:
+    - ID: 1
+      amt: 10
   - ID: -100
     prefab: {fileID: 9071754125117149951, guid: f1e6acf5da058ab40aeae02bd4a32417, type: 3}
     size: 2
+    cost: []
   cPos: {x: 0, y: 0}
 --- !u!4 &1089174045
 Transform:
@@ -1206,6 +1220,19 @@ MonoBehaviour:
     color: {r: 0.728824, g: 1, b: 0, a: 1}
   - name: Inspect
     color: {r: 0.39489147, g: 0.9622642, b: 0.88499534, a: 1}
+  CoreBlock:
+    spr: {fileID: 0}
+    gobj: {fileID: 0}
+    absPos: {x: 0, y: 0}
+    relPos: {x: 0, y: 0}
+    txt: {fileID: 0}
+    Type: 0
+    ConnectionsOutPos: []
+    circuit: 0
+    canSendResources: 0
+    sendingIndex: 0
+    busy: 0
+    size: {x: 0, y: 0}
 --- !u!114 &1089174048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1306,7 +1333,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: 645915d4ec6299d44961ebe77f6dae40, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1743,10 +1770,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: New Text and sample text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6413ab4a562f0e8459019539761cca18, type: 2}
+  m_sharedMaterial: {fileID: -8417784630934619003, guid: 6413ab4a562f0e8459019539761cca18, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1770,8 +1797,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 44.2
+  m_fontSizeBase: 44.2
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1780,7 +1807,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 7.4
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0

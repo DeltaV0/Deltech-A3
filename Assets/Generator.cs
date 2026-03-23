@@ -9,7 +9,7 @@ public class Generator : MonoBehaviour
     public class Chunk
     {
         public Vector2Int pos;
-        Dictionary<Vector2Int, Blocks.Terrain> terrain = new Dictionary<Vector2Int, Blocks.Terrain>();
+        public Dictionary<Vector2Int, Blocks.Terrain> terrain = new Dictionary<Vector2Int, Blocks.Terrain>();
         public Dictionary<Vector2Int, Blocks.Block> buildings = new Dictionary<Vector2Int, Blocks.Block>();
         public Chunk(Vector2Int position)
         {
@@ -76,7 +76,7 @@ public class Generator : MonoBehaviour
             
             if(GetBlockAt(position, true, i.size) == null){
                 Blocks.Block newBlock = new Blocks.Block(position - pos, pos, i.ID, new Vector2Int(i.size, i.size));
-                Debug.Log(i.size);
+                //Debug.Log(i.size);
                             buildings.Add(position, newBlock);
                             
                             }
@@ -85,7 +85,7 @@ public class Generator : MonoBehaviour
         }
 
         public void Break(Vector2Int position){
-            if(buildings.ContainsKey(position)){
+            if(GetBlockAt(position) != null && GetBlockAt(position).Type != -100){
                 buildings[position].destroy();
             }
         }
@@ -96,7 +96,12 @@ public class Generator : MonoBehaviour
             if(buildings.Count > 0){
             for(int i = 0; i < buildings.Count; i++)
             {
+                
                 Blocks.Block block = buildings.ElementAt(i).Value;
+                if(buildings.ElementAt(i).Value == null)
+                    {
+                        buildings.Remove(buildings.ElementAt(i).Key);
+                    } else {
                 if(block.Type == 0)
                     {
                         if(!block.busy){
@@ -168,7 +173,30 @@ public class Generator : MonoBehaviour
                             block.txt.text += "Crafting!!!";
                         }
                         block.TrySendResources();
+                    } else if(block.Type == -100)
+                    {
+                        block.txt.text = "";
+                        if (block.ItemsOut.Count > 0)
+                        {
+                           for(int q = 0; q < block.ItemsOut.Count; q++)
+                            {
+                                block.txt.text += block.ItemsOut.ElementAt(q).Key + ", " + block.ItemsOut.ElementAt(q).Value + "\n";
+                            }
+                        }
+
+                       
+                        
+                        if(block.ItemsIn.Count > 0){
+                            for(int q = 0; q < block.ItemsIn.Count; q++)
+                            {
+                                
+                                block.ChangeItemCount(false, block.ItemsIn.ElementAt(0).Key, block.ItemsIn.ElementAt(0).Value);
+                                block.ItemsIn.Remove(block.ItemsIn.ElementAt(0).Key);
+                            }
+                        }
+                        block.TrySendResources();
                     }
+            }
             }
             }
         }
@@ -184,6 +212,23 @@ public class Generator : MonoBehaviour
         public GameObject prefab;
 
         public int size;
+        public ItemCostInfo[] cost;
+    }
+
+    /*[System.Serializable]
+    public class ItemInfo
+    {
+        public int ID;
+        public Sprite sprite;
+
+    }*/
+
+    [System.Serializable]
+    public class ItemCostInfo
+    {
+        public int ID;
+        public int amt;
+
     }
     public BlockInfo[] info;
     public Dictionary<int, BlockInfo> Info = new Dictionary<int, BlockInfo>();

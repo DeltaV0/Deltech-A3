@@ -108,19 +108,46 @@ public class Blocks : MonoBehaviour
 
         public Block(Vector2Int pos, Vector2Int cpos, int t, Vector2Int sze)
         {
+            absPos = pos + cpos;
+            Vector3 APos = new Vector3((float)(absPos.x), (float)(absPos.y), 0);
+            GameObject tile = Instantiate(Generator.me.Info[t].prefab, APos, Quaternion.identity);
+            gobj = tile;
+            spr = tile.GetComponent<SpriteRenderer>();
+            Type = t;
+            
+
+            if(t == -100)
+            {
+                PlayerStats.me.CoreBlock = this;
+            } else {
+
+            for(int i = 0; i < Generator.me.Info[t].cost.Length; i++)
+            {
+                bool rich = PlayerStats.me.CoreBlock.CheckIsItemChangeValid(false, Generator.me.Info[t].cost[i].ID, -1 * Generator.me.Info[t].cost[i].amt);
+                Debug.Log(rich);
+                if (!rich)
+                {
+                    destroy();
+                    //return;
+                }
+            }
+            for(int i = 0; i < Generator.me.Info[t].cost.Length; i++)
+            {
+                PlayerStats.me.CoreBlock.ChangeItemCount(false, Generator.me.Info[t].cost[i].ID, -1 * Generator.me.Info[t].cost[i].amt);
+            }
+            }
             size.x = sze.x;
             size.y = sze.y;
 
             busy = false;
             canSendResources = true;
-            Type = t;
+            
+            
             relPos = pos;
-            absPos = pos + cpos;
-            Vector3 APos = new Vector3((float)(absPos.x), (float)(absPos.y), 0);
+            
+           
             circuit = 0;
-            GameObject tile = Instantiate(Generator.me.Info[t].prefab, APos, Quaternion.identity);
-            gobj = tile;
-            spr = tile.GetComponent<SpriteRenderer>();
+            
             if(gobj.transform.childCount > 0){
             txt = gobj.transform.GetChild(0).GetComponent<TMP_Text>();
             }
